@@ -147,6 +147,10 @@ class SlangWordApplication{
                         clearScreen();
                         editWord();
                         break;
+                    case 6:
+                        clearScreen();
+                        deleteWord();
+                        break;
                     
                     
                     case 0:
@@ -273,6 +277,37 @@ class SlangWordApplication{
             System.out.println("Press enter to continue...");
             sc.nextLine();
             run();
+        }
+    }
+    
+    private void deleteWord() {
+        System.out.print("Enter the word you want to delete: ");
+        BufferedReader bReader;
+        try {
+            bReader = new BufferedReader(new InputStreamReader(System.in, "utf-8"));
+            String word = bReader.readLine();
+            if(slangWordList.slangWords.containsKey(word)){
+                
+                System.out.println("Slang word: "+ word + " , definition: " + slangWordList.slangWords.get(word) );
+                System.out.println("Are you sure you want to delete this word? (Y/N)");
+                String choice = bReader.readLine();
+                if(choice.equalsIgnoreCase("Y")){
+                    slangWordList.slangWords.remove(word);
+                    saveData();
+                    System.out.println("Delete successfully!");
+                }
+                else{
+                    System.out.println("Delete unsuccessfully!");
+                }
+            }
+            else{
+                System.out.println("Word not found!");
+            }
+            System.out.println("Press Enter to continue...");
+            bReader.readLine();
+            run();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
     
