@@ -1,14 +1,19 @@
 package slangword;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
@@ -28,7 +33,8 @@ public class Main {
      */
     public static void main(String[] args) {
         SlangWordApplication app = new SlangWordApplication();
-        boolean isLoaded = app.loadData("slang.txt");
+        
+        boolean isLoaded = app.loadData();
         if(isLoaded) {
             app.run();
         }
@@ -38,8 +44,9 @@ public class Main {
 class SlangWordApplication{
     SlangWordList slangWordList = new SlangWordList();
     LinkedHashMap history = new LinkedHashMap<String, String>();
-     
-    public boolean loadData(String fileName){
+    private String fileName = "slang.txt"; 
+    
+    public boolean loadData() {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(fileName));
             System.out.println("reader: " + reader);
@@ -60,7 +67,7 @@ class SlangWordApplication{
         return false;
     }
   
-    public File createFileIfNotExist(String fileName) {
+    public File createFileIfNotExist() {
         File file = new File(fileName);
         try {
             if(!file.exists()){
@@ -116,6 +123,10 @@ class SlangWordApplication{
                     case 3:
                         clearScreen();
                         viewSearchHistory();
+                        break;
+                    case 4:
+                        clearScreen();
+                        addNewSlangWord();
                         break;
                     
                     
@@ -192,6 +203,37 @@ class SlangWordApplication{
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
         run();
+    }
+    
+    private void addNewSlangWord() {
+        System.out.print("Enter the slang word: ");
+        BufferedReader bReader;
+        try {
+            bReader = new BufferedReader(new InputStreamReader(System.in, "utf-8"));
+            String slangWord = bReader.readLine();
+            System.out.print("Enter the definition: ");
+            String definition = bReader.readLine();
+            String writeData = slangWord + "`" + definition + "\n";
+            
+            OutputStream os = new FileOutputStream(new File(fileName), true);
+            os.write(writeData.getBytes(), 0, writeData.length());
+            
+
+            if(slangWordList.add(slangWord, definition)) {
+                System.out.println("Add new word successfully!");
+            }
+            else {
+                System.out.println("Add new word failed! The word is already existed!");
+            }
+            
+            System.out.println("Press enter to continue...");
+            bReader.readLine();
+            os.close();
+            
+            run();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     private boolean isNumeric(String readLine) {

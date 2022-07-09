@@ -20,10 +20,13 @@ public class SlangWordList {
         slangWords = new HashMap<String, String>();
     }
     
-    public void add(String word, String definition) {
+    public boolean add(String word, String definition) {
         if(!slangWords.containsKey(word)) {
             slangWords.put(word, definition);
+            return true;
         }
+        
+        return false;
     }
     
     public int size() {
