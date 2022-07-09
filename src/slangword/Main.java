@@ -33,7 +33,6 @@ class SlangWordApplication{
     public boolean loadData(String fileName) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(fileName));
-            System.out.println("reader: " + reader);
             String line = reader.readLine();
             
             while(line != null) {
@@ -57,7 +56,7 @@ class SlangWordApplication{
             DataOutputStream out = new DataOutputStream(new FileOutputStream(file));
             
             for(String word : writeData.keySet()) {
-                var data = word + "`" + writeData.get(word) + "\n";
+                var data =  word + "`" + writeData.get(word) + "\n";
                 out.writeBytes(data);
             }
             out.close();
@@ -84,20 +83,20 @@ class SlangWordApplication{
         int id = 0;
         do {
             clearScreen();
-            System.out.println("\t---Welcome to Slang Word List Application---");
-            System.out.println("1. Search by slang word\t\t\t6. Delete slang word");
-            System.out.println("2. Search by definition\t\t\t7. Restore backup");
-            System.out.println("3. View search history\t\t\t8. On this day slang word");
-            System.out.println("4. Add new slang word\t\t\t9. Random game: guess the definition");
-            System.out.println("5. Edit slang word\t\t\t10. Random game: guess the slang word");
+            System.out.println("\t---Slang Word---");
+            System.out.println("1. Tìm kiếm Slang word\t\t\t6. Xoá slang word");
+            System.out.println("2. Tìm kiếm theo định nghĩa\t\t\t7. Reset lại danh sách ban đầu");
+            System.out.println("3. Xem lịch sử\t\t\t\t\t8. On this day slang word - Chọn slang word ngẫu nhiên");
+            System.out.println("4. Thêm slang word\t\t\t9. Random game: Đoán định nghĩa dựa trên slang word");
+            System.out.println("5. Chỉnh sửa slang word\t\t\t10. Random game: Đoán slang word dựa trên định nghĩa");
             System.out.println("0. Exit");
             System.out.println("\t---------------------------------------------");
-            if(id<0||id>10) {
-                System.out.print("Invalid choice! Please enter your choice again: ");
+            if(id < 0 || id > 10) {
+                System.out.print("Lựa chọn không phù hợp! Xin hãy chọn lại: ");
             }
             else
             {
-                System.out.print("Enter your choice: ");
+                System.out.print("Nhập lựa chọn của bạn: ");
             }
 
             BufferedReader bReader;
@@ -144,7 +143,7 @@ class SlangWordApplication{
                      
                     
                     case 0:                      
-                        System.out.println("Thank you for using Slang Word List Application!");
+                        System.out.println("Cảm ơn vì đã sử dụng ứng dụng Slang Word!");
                         System.exit(0);
                     default:
                         break;
@@ -157,39 +156,39 @@ class SlangWordApplication{
     } 
      
     private void searchSlangWord() {
-        System.out.println("Search a slang word");
+        System.out.println("Tìm kiếm slang word: ");
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter a word: ");
         String word = scanner.nextLine();
         
         if(slangWordList.slangWords.get(word) != null) {
             String value =  slangWordList.slangWords.get(word);
-            System.out.println("Definition: " + value);
+            System.out.println("Định nghĩa: " + value);
             history.put(word, value);
         }
         else {
-            System.out.println("Not found!");
+            System.out.println("Không tìm thấy!");
         }
-        System.out.println("Press Enter to continue...");
+        System.out.println("Nhấn enter để tiếp tục...");
         scanner.nextLine();
         run();
     }
 
     private void searchDefinition() {
-        System.out.print("Enter the definition you want to search: ");
+        System.out.print("Nhập định nghĩa bạn muốn tìm kiếm: ");
             Scanner scanner = new Scanner(System.in);
             String definition = scanner.nextLine();
             SlangWordList result = slangWordList.search(definition);
             if(result.size() == 0) {
-                System.out.println("No result found!");
+                System.out.println("Không có kết quả!");
             }
             else {
-                System.out.println("Found " + result.size() + " results:" + result.slangWords);
+                System.out.println("Tìm thấy " + result.size() + " kết :" + result.slangWords);
                 for(String word : result.slangWords.keySet()) {
                    history.put(word , result.slangWords.get(word));
                 }
             }
-            System.out.println("Press Enter to continue...");
+            System.out.println("Nhấn enter để tiếp tục...");
             scanner.nextLine();
             run();
 
@@ -207,19 +206,19 @@ class SlangWordApplication{
                 i++;
             }
         }
-        System.out.println("Press enter to continue...");
+        System.out.println("Nhấn enter để tiếp tục...");
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
         run();
     }
     
     private void addNewSlangWord() {
-        System.out.print("Enter the slang word: ");
+        System.out.print("Nhập slang word mới: ");
         BufferedReader bReader;
         try {
             bReader = new BufferedReader(new InputStreamReader(System.in, "utf-8"));
             String slangWord = bReader.readLine();
-            System.out.print("Enter the definition: ");
+            System.out.print("Nhập định nghĩa: ");
             String definition = bReader.readLine();
             String writeData = slangWord + "`" + definition + "\n";
             
@@ -228,13 +227,13 @@ class SlangWordApplication{
             
 
             if(slangWordList.add(slangWord, definition)) {
-                System.out.println("Add new word successfully!");
+                System.out.println("Thêm từ mới thành công!");
             }
             else {
-                System.out.println("Add new word failed! The word is already existed!");
+                System.out.println("Thêm từ mới thất bại!");
             }
             
-            System.out.println("Press enter to continue...");
+            System.out.println("Nhấn enter để tiếp tục...");
             bReader.readLine();
             os.close();
             
@@ -246,51 +245,51 @@ class SlangWordApplication{
     
     private void editWord() {
         try (Scanner sc = new Scanner(System.in)) {
-            System.out.print("Enter the word you want to edit: ");
+            System.out.print("Nhập từ bạn muốn chỉnh sửa: ");
             String word = sc.nextLine();
             if(slangWordList.slangWords.containsKey(word)){
-                System.out.print("Old definition: " + slangWordList.slangWords.get(word) + "\n");
-                System.out.print("Enter the new definition: ");
+                System.out.print("Định nghĩa cũ: " + slangWordList.slangWords.get(word) + "\n");
+                System.out.print("Nhập định nghĩa mới: ");
                 String definition = sc.nextLine();
                 slangWordList.slangWords.put(word, definition);
                 
                 
                 saveData(fileName, slangWordList.slangWords);
-                System.out.println("Edit successfully!");
+                System.out.println("Chỉnh sửa thành công!");
             }
             else{
-                System.out.println("Word not found!");
+                System.out.println("Từ không tìm !");
             }
-            System.out.println("Press enter to continue...");
+            System.out.println("Nhấn enter để tiếp tục...");
             sc.nextLine();
             run();
         }
     }
     
     private void deleteWord() {
-        System.out.print("Enter the word you want to delete: ");
+        System.out.print("Nhập từ bạn muốn xoá: ");
         BufferedReader bReader;
         try {
             bReader = new BufferedReader(new InputStreamReader(System.in, "utf-8"));
             String word = bReader.readLine();
             if(slangWordList.slangWords.containsKey(word)){
                 
-                System.out.println("Slang word: "+ word + " , definition: " + slangWordList.slangWords.get(word) );
-                System.out.println("Are you sure you want to delete this word? (Y/N)");
+                System.out.println("Slang word: "+ word + " , định nghĩa: " + slangWordList.slangWords.get(word) );
+                System.out.println("Bạn có chắc muốn xóa từ này không? (Y/N)");
                 String choice = bReader.readLine();
                 if(choice.equalsIgnoreCase("Y")){
                     slangWordList.slangWords.remove(word);
                     saveData(fileName, slangWordList.slangWords);
-                    System.out.println("Delete successfully!");
+                    System.out.println("Xoá thành công!");
                 }
                 else{
-                    System.out.println("Delete unsuccessfully!");
+                    System.out.println("Xoá thất bại!");
                 }
             }
             else{
-                System.out.println("Word not found!");
+                System.out.println("Không tìm thấy từ này!");
             }
-            System.out.println("Press Enter to continue...");
+            System.out.println("Nhấn enter để tiếp tục...");
             bReader.readLine();
             run();
         } catch (IOException e) {
@@ -299,23 +298,23 @@ class SlangWordApplication{
     }
     
     private void restoreBackup() {
-        System.out.println("Are you sure you want to restore backup? (Y/N)");
+        System.out.println("Bạn có chắc muốn reset lại danh sách ban đầu không? (Y/N)");
         BufferedReader bReader;
         try {
             bReader = new BufferedReader(new InputStreamReader(System.in, "utf-8"));
-            System.out.print("Enter your choice: ");
+            System.out.print("Nhập lựa chọn của bạn: ");
             String choice = bReader.readLine();
             if(choice.equals("Y")||choice.equals("y")) {
                 slangWordList.slangWords.clear();
                 loadData(restoreFileName);
                 saveData(fileName, slangWordList.slangWords);
-                System.out.println("Backup restored!");
+                System.out.println("Đã reset lại danh sách!");
 
             }
             else {
-                System.out.println("Backup not restored!");
+                System.out.println("Reset không thành công!");
             }
-            System.out.println("Press any key to continue...");
+            System.out.println("Nhấn enter để tiếp tục...");
             bReader.readLine();
             run();
         } catch (IOException e) {
@@ -325,9 +324,9 @@ class SlangWordApplication{
     
     private void pickRandomWord() {
         String word = slangWordList.randomWord();
-        System.out.println("Slang word: " + word +", definition: " + slangWordList.getDefinition(word));
+        System.out.println("Slang word: " + word +", định nghĩa: " + slangWordList.getDefinition(word));
         
-        System.out.println("Press enter to continue...");
+        System.out.println("Nhấn enter để tiếp tục...");
         BufferedReader bReader;
         try {
             bReader = new BufferedReader(new InputStreamReader(System.in, "utf-8"));
@@ -361,9 +360,9 @@ class SlangWordApplication{
 
             }
             RandomGame game = new RandomGame(word, difinition, randomIndex);
-            System.out.println("Guess the definition of: " + word);
+            System.out.println("Đoán định nghĩa của từ: " + word);
             game.run();
-            System.out.println("Press enter to continue...");
+            System.out.println("Nhấn enter để tiếp tục...");
             BufferedReader bReader;
 
             bReader = new BufferedReader(new InputStreamReader(System.in, "utf-8"));
@@ -395,10 +394,10 @@ class SlangWordApplication{
                 }
             }
 
-            System.out.println("Guess the slang word of: " + definition);
+            System.out.println("Đoán slang word của: " + definition);
             RandomGame game = new RandomGame (definition, words,random);
             game.run();
-            System.out.println("Press enter to continue...");
+            System.out.println("Nhấn enter để tiếp tục...");
             BufferedReader bReader;
         
             bReader = new BufferedReader(new InputStreamReader(System.in, "utf-8"));

@@ -50,13 +50,13 @@ public class RandomGame {
 
     public boolean printResult() {
         if (this.userAnswer == -1) {
-            System.out.println("You haven't answered yet!");
+            System.out.println("Bạn chưa trả lời!");
             return false;
         } else if (this.userAnswer == this.correctAnswer) {
-            System.out.println("Correct Answer!!!");
+            System.out.println("Đúng rồi!!!");
             return true;
         } else {
-            System.out.println("Wrong Answer!!!");
+            System.out.println("Sai rồi!!!");
             return false;
         }
     }
@@ -73,9 +73,9 @@ public class RandomGame {
             do {
                 if(this.userAnswer < 0 || this.userAnswer >= this.answers.length) {
                     
-                    System.out.println("Please enter a valid answer!");
+                    System.out.println("Hãy nhập số thứ tự câu trả lời đúng!");
                 }
-                System.out.print("Enter your answer (1 to " + this.answers.length + "): ");
+                System.out.print("Nhập câu trả lời của bạn (1 đến " + this.answers.length + "): ");
                 String line = reader.readLine();
                 if(isNumeric(line)) {
                     this.userAnswer = Integer.parseInt(line)-1 ;
@@ -90,7 +90,7 @@ public class RandomGame {
            
         }
        
-        if(! printResult()){System.out.println("*The correct answer is: " + this.answers[this.correctAnswer]);
+        if(! printResult()){System.out.println("*Đáp án đúng là: " + this.answers[this.correctAnswer]);
     }
 }
 
