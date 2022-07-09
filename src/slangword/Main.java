@@ -66,6 +66,21 @@ class SlangWordApplication{
         
         return false;
     }
+    
+    public void saveData() {
+        try {
+            File file = createFileIfNotExist();
+            DataOutputStream out = new DataOutputStream(new FileOutputStream(file));
+            
+            for(String word : slangWordList.slangWords.keySet()) {
+                var writeData = word + "`" + slangWordList.slangWords.get(word) + "\n";
+                out.writeBytes(writeData);
+            }
+            out.close();
+        }catch(IOException e){
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
   
     public File createFileIfNotExist() {
         File file = new File(fileName);
@@ -128,6 +143,10 @@ class SlangWordApplication{
                         clearScreen();
                         addNewSlangWord();
                         break;
+                    case 5:
+                        clearScreen();
+                        editWord();
+                        break;
                     
                     
                     case 0:
@@ -138,11 +157,11 @@ class SlangWordApplication{
                     default:
                         break;
                 }
-        } catch (  IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        } while (id<0||id>5);
+            } 
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        } while (id < 0||id > 5);
     } 
      
     private void searchSlangWord() {
@@ -233,6 +252,27 @@ class SlangWordApplication{
             run();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    
+    private void editWord() {
+        try (Scanner sc = new Scanner(System.in)) {
+            System.out.print("Enter the word you want to edit: ");
+            String word = sc.nextLine();
+            if(slangWordList.slangWords.containsKey(word)){
+                System.out.print("Old definition: " + slangWordList.slangWords.get(word) + "\n");
+                System.out.print("Enter the new definition: ");
+                String definition = sc.nextLine();
+                slangWordList.slangWords.put(word, definition);
+                saveData();
+                System.out.println("Edit successfully!");
+            }
+            else{
+                System.out.println("Word not found!");
+            }
+            System.out.println("Press enter to continue...");
+            sc.nextLine();
+            run();
         }
     }
     

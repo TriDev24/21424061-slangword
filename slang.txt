@@ -1,15 +1,16 @@
-Slag`Meaning
-#1`Number one
+>//<`Embarrassed| blushing
 $`Dollar| money
-$_$`Has money
 %)`Drunk| giddy
 &`And
-&APOS;S`Wrongly displayed 's
-><`Frustration
->,<`Angry| annoyed
->.>`Suspicious| wary
+$_$`Has money
 >.<`Frustrated| angry| upset| in pain
->//<`Embarrassed| blushing
->3`Evil but happy|Hate
 >:(`Angry
 >:)`Evil Grin
+#1`So 1
+>,<`Angry| annoyed
+>.>`Suspicious| wary
+&APOS;S`Wrongly displayed 's
+>3`Evil but happy|Hate
+Slag`Meaning
+hello`123
+><`Frustration
