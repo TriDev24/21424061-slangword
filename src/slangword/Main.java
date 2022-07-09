@@ -109,6 +109,10 @@ class SlangWordApplication{
                         clearScreen();
                         SearchSlangWord();
                         break;
+                    case 2:
+                        clearScreen();
+                        SearchDefinition();
+                        break;
                     
                     case 0:
                         clearScreen();                        
@@ -145,6 +149,26 @@ class SlangWordApplication{
         run();
     }
 
+    private void SearchDefinition() {
+        clearScreen();
+        System.out.print("Enter the definition you want to search: ");
+            Scanner scanner = new Scanner(System.in);
+            String definition = scanner.nextLine();
+            SlangWordList result = slangWordList.search(definition);
+            if(result.size() == 0) {
+                System.out.println("No result found!");
+            }
+            else {
+                System.out.println("Found " + result.size() + " results:" + result.slangWords);
+                for(String word : result.slangWords.keySet()) {
+                   history.put(word , result.slangWords.get(word));
+                }
+            }
+            System.out.println("Press Enter to continue...");
+            scanner.nextLine();
+            run();
+
+    }
     
     private boolean isNumeric(String readLine) {
         return readLine.matches("[0-9]+");

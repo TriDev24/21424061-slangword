@@ -41,8 +41,6 @@ public class SlangWordList {
     public SlangWordList search(String definition) {
         SlangWordList result = new SlangWordList();
         for (String word : slangWords.keySet()) {
-            System.out.println(word);
-            // TODO: Refactor this. 
             if (Pattern.compile(Pattern.quote(definition),Pattern.CASE_INSENSITIVE).matcher(slangWords.get(word)).find()) {
                 result.add(word, slangWords.get(word));
             }
