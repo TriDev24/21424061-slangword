@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
@@ -15,7 +16,7 @@ public class Main {
     public static void main(String[] args) {
         SlangWordApplication app = new SlangWordApplication();
         
-        boolean isLoaded = app.loadData();
+        boolean isLoaded = app.loadData("slang.txt");
         if(isLoaded) {
             app.run();
         }
@@ -25,9 +26,11 @@ public class Main {
 class SlangWordApplication{
     SlangWordList slangWordList = new SlangWordList();
     LinkedHashMap history = new LinkedHashMap<String, String>();
-    private String fileName = "slang.txt"; 
+    private String fileName = "slang.txt";
+    private String restoreFileName = "slang-restore.txt";
+
     
-    public boolean loadData() {
+    public boolean loadData(String fileName) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(fileName));
             System.out.println("reader: " + reader);
@@ -48,14 +51,14 @@ class SlangWordApplication{
         return false;
     }
     
-    public void saveData() {
+    public void saveData(String fileName, HashMap<String, String> writeData) {
         try {
-            File file = createFileIfNotExist();
+            File file = createFileIfNotExist(fileName);
             DataOutputStream out = new DataOutputStream(new FileOutputStream(file));
             
-            for(String word : slangWordList.slangWords.keySet()) {
-                var writeData = word + "`" + slangWordList.slangWords.get(word) + "\n";
-                out.writeBytes(writeData);
+            for(String word : writeData.keySet()) {
+                var data = word + "`" + writeData.get(word) + "\n";
+                out.writeBytes(data);
             }
             out.close();
         }catch(IOException e){
@@ -63,7 +66,7 @@ class SlangWordApplication{
         }
     }
   
-    public File createFileIfNotExist() {
+    public File createFileIfNotExist(String fileName) {
         File file = new File(fileName);
         try {
             if(!file.exists()){
@@ -127,7 +130,7 @@ class SlangWordApplication{
                         deleteWord();
                         break;
                     case 7:
-                        // restoreBackup();
+                        restoreBackup();
                         break;
                     case 8:
                         pickRandomWord();
@@ -140,10 +143,8 @@ class SlangWordApplication{
                         break;
                      
                     
-                    
                     case 0:                      
                         System.out.println("Thank you for using Slang Word List Application!");
-                        // saveData("slang.txt");
                         System.exit(0);
                     default:
                         break;
@@ -252,7 +253,9 @@ class SlangWordApplication{
                 System.out.print("Enter the new definition: ");
                 String definition = sc.nextLine();
                 slangWordList.slangWords.put(word, definition);
-                saveData();
+                
+                
+                saveData(fileName, slangWordList.slangWords);
                 System.out.println("Edit successfully!");
             }
             else{
@@ -277,7 +280,7 @@ class SlangWordApplication{
                 String choice = bReader.readLine();
                 if(choice.equalsIgnoreCase("Y")){
                     slangWordList.slangWords.remove(word);
-                    saveData();
+                    saveData(fileName, slangWordList.slangWords);
                     System.out.println("Delete successfully!");
                 }
                 else{
@@ -295,7 +298,7 @@ class SlangWordApplication{
         }
     }
     
-    /*private void restoreBackup() {
+    private void restoreBackup() {
         System.out.println("Are you sure you want to restore backup? (Y/N)");
         BufferedReader bReader;
         try {
@@ -304,8 +307,8 @@ class SlangWordApplication{
             String choice = bReader.readLine();
             if(choice.equals("Y")||choice.equals("y")) {
                 slangWordList.slangWords.clear();
-                loadData("slang.txt.bak");
-                slangWordList.size = slangWordList.slangWords.size();
+                loadData(restoreFileName);
+                saveData(fileName, slangWordList.slangWords);
                 System.out.println("Backup restored!");
 
             }
@@ -316,10 +319,9 @@ class SlangWordApplication{
             bReader.readLine();
             run();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-    }*/
+    }
     
     private void pickRandomWord() {
         String word = slangWordList.randomWord();
