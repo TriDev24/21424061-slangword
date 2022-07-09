@@ -1,36 +1,17 @@
 package slangword;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
-
-/**
- *
- * @author bin
- */
 public class Main {
-   
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         SlangWordApplication app = new SlangWordApplication();
         
@@ -159,6 +140,11 @@ class SlangWordApplication{
                         clearScreen();
                         pickRandomWord();
                         break;
+                    case 9:
+                        clearScreen();
+                        guessDefinition();
+                        break;    
+                    
                      
                     
                     
@@ -357,6 +343,41 @@ class SlangWordApplication{
             bReader.readLine();
         } catch (IOException e) {
             // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        run();
+    }
+    
+    private void guessDefinition() {
+        try {
+            String word = slangWordList.randomWord();
+            String[] difinition= {"","","",""};
+            int randomIndex = (int) (Math.random() * 4);
+            for(int i = 0; i < 4; i++){
+                if(i == randomIndex) {
+                    difinition[i] = slangWordList.getDefinition(word);
+                }
+                else {
+                    difinition[i] = slangWordList.randomDefinition();
+                    for(int j = 0; j < i; j++){
+                        if(difinition[i].equals(difinition[j])|| 
+                        difinition[i].equals(slangWordList.getDefinition(word))){
+                            i--;
+                            break;
+                        }
+                    }
+                }
+
+            }
+            RandomGame game = new RandomGame(word, difinition, randomIndex);
+            System.out.println("Guess the definition of: " + word);
+            game.run();
+            System.out.println("Press enter to continue...");
+            BufferedReader bReader;
+
+            bReader = new BufferedReader(new InputStreamReader(System.in, "utf-8"));
+            bReader.readLine();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         run();

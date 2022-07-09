@@ -3,16 +3,6 @@ package slangword;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-/**
- *
- * @author bin
- */
 public class SlangWordList {
     HashMap<String, String> slangWords;
     
@@ -51,6 +41,18 @@ public class SlangWordList {
             i++;
         }
         return slangWords.keySet().iterator().next();
+    }
+    
+    public String randomDefinition() {
+        int randomIndex = (int) (Math.random() * slangWords.size());
+        int i = 0;
+        for (String word : slangWords.keySet()) {
+            if (i == randomIndex) {
+                return slangWords.get(word);
+            }
+            i++;
+        }
+        return slangWords.values().iterator().next();
     }
 
     public SlangWordList search(String definition) {
