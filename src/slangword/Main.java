@@ -107,12 +107,17 @@ class SlangWordApplication{
                 switch (id) {
                     case 1:
                         clearScreen();
-                        SearchSlangWord();
+                        searchSlangWord();
                         break;
                     case 2:
                         clearScreen();
-                        SearchDefinition();
+                        searchDefinition();
                         break;
+                    case 3:
+                        clearScreen();
+                        viewSearchHistory();
+                        break;
+                    
                     
                     case 0:
                         clearScreen();                        
@@ -129,7 +134,7 @@ class SlangWordApplication{
         } while (id<0||id>5);
     } 
      
-    private void SearchSlangWord() {
+    private void searchSlangWord() {
         clearScreen();
         System.out.println("Search a slang word");
         Scanner scanner = new Scanner(System.in);
@@ -149,7 +154,7 @@ class SlangWordApplication{
         run();
     }
 
-    private void SearchDefinition() {
+    private void searchDefinition() {
         clearScreen();
         System.out.print("Enter the definition you want to search: ");
             Scanner scanner = new Scanner(System.in);
@@ -168,6 +173,25 @@ class SlangWordApplication{
             scanner.nextLine();
             run();
 
+    }
+    
+    private void viewSearchHistory() {
+        if(history.isEmpty()){
+            System.out.println("No search history!");
+        }
+        else{
+            clearScreen();
+            System.out.println("Search history:");
+            int i =1;
+            for(Object word : history.keySet()){
+                System.out.println(i +". "+ word + ": " + history.get(word));
+                i++;
+            }
+        }
+        System.out.println("Press enter to continue...");
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
+        run();
     }
     
     private boolean isNumeric(String readLine) {
