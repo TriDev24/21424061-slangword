@@ -109,47 +109,39 @@ class SlangWordApplication{
                 }
                 switch (id) {
                     case 1:
-                        clearScreen();
                         searchSlangWord();
                         break;
                     case 2:
-                        clearScreen();
                         searchDefinition();
                         break;
                     case 3:
-                        clearScreen();
                         viewSearchHistory();
                         break;
                     case 4:
-                        clearScreen();
                         addNewSlangWord();
                         break;
                     case 5:
-                        clearScreen();
                         editWord();
                         break;
                     case 6:
-                        clearScreen();
                         deleteWord();
                         break;
                     case 7:
-                        clearScreen();
                         // restoreBackup();
                         break;
                     case 8:
-                        clearScreen();
                         pickRandomWord();
                         break;
                     case 9:
-                        clearScreen();
                         guessDefinition();
                         break;    
-                    
+                    case 10:
+                        guessSlangWord();
+                        break;
                      
                     
                     
-                    case 0:
-                        clearScreen();                        
+                    case 0:                      
                         System.out.println("Thank you for using Slang Word List Application!");
                         // saveData("slang.txt");
                         System.exit(0);
@@ -164,7 +156,6 @@ class SlangWordApplication{
     } 
      
     private void searchSlangWord() {
-        clearScreen();
         System.out.println("Search a slang word");
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter a word: ");
@@ -184,7 +175,6 @@ class SlangWordApplication{
     }
 
     private void searchDefinition() {
-        clearScreen();
         System.out.print("Enter the definition you want to search: ");
             Scanner scanner = new Scanner(System.in);
             String definition = scanner.nextLine();
@@ -209,7 +199,6 @@ class SlangWordApplication{
             System.out.println("No search history!");
         }
         else{
-            clearScreen();
             System.out.println("Search history:");
             int i =1;
             for(Object word : history.keySet()){
@@ -383,17 +372,47 @@ class SlangWordApplication{
         run();
     }
     
+    private void guessSlangWord() {
+        try {
+            String word = slangWordList.randomWord();
+            String definition = slangWordList.getDefinition(word);
+            String[] words = new String[4];
+            int random = (int)(Math.random()*4);
+            for(int i = 0; i < 4; i++){
+                if(i==random){
+                    words[i] = word;
+                }
+                else{
+                    words[i] = slangWordList.randomWord();
+                    for(int j = 0; j < i; j++){
+                        if(words[i].equals(words[j])||words[i].equals(word)){
+                            i--;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            System.out.println("Guess the slang word of: " + definition);
+            RandomGame game = new RandomGame (definition, words,random);
+            game.run();
+            System.out.println("Press enter to continue...");
+            BufferedReader bReader;
+        
+            bReader = new BufferedReader(new InputStreamReader(System.in, "utf-8"));
+            bReader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        run();
+
+    }
+    
     private boolean isNumeric(String readLine) {
         return readLine.matches("[0-9]+");
     }
     
-    public static void clearScreen() {  
-       //Clears Screen in java
-        try {
-        if (System.getProperty("os.name").contains("Windows"))
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        else
-            Runtime.getRuntime().exec("clear");
-     } catch (IOException | InterruptedException ex) {}
+    public void clearScreen() {  
+       System.out.flush(); 
     }
 }
