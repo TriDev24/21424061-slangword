@@ -151,6 +151,15 @@ class SlangWordApplication{
                         clearScreen();
                         deleteWord();
                         break;
+                    case 7:
+                        clearScreen();
+                        // restoreBackup();
+                        break;
+                    case 8:
+                        clearScreen();
+                        pickRandomWord();
+                        break;
+                     
                     
                     
                     case 0:
@@ -309,6 +318,48 @@ class SlangWordApplication{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    /*private void restoreBackup() {
+        System.out.println("Are you sure you want to restore backup? (Y/N)");
+        BufferedReader bReader;
+        try {
+            bReader = new BufferedReader(new InputStreamReader(System.in, "utf-8"));
+            System.out.print("Enter your choice: ");
+            String choice = bReader.readLine();
+            if(choice.equals("Y")||choice.equals("y")) {
+                slangWordList.slangWords.clear();
+                loadData("slang.txt.bak");
+                slangWordList.size = slangWordList.slangWords.size();
+                System.out.println("Backup restored!");
+
+            }
+            else {
+                System.out.println("Backup not restored!");
+            }
+            System.out.println("Press any key to continue...");
+            bReader.readLine();
+            run();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }*/
+    
+    private void pickRandomWord() {
+        String word = slangWordList.randomWord();
+        System.out.println("Slang word: " + word +", definition: " + slangWordList.getDefinition(word));
+        
+        System.out.println("Press enter to continue...");
+        BufferedReader bReader;
+        try {
+            bReader = new BufferedReader(new InputStreamReader(System.in, "utf-8"));
+            bReader.readLine();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        run();
     }
     
     private boolean isNumeric(String readLine) {

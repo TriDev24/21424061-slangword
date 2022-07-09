@@ -40,6 +40,18 @@ public class SlangWordList {
     public void remove(String word) {
         slangWords.remove(word);
     }
+    
+    public String randomWord() {
+        int randomIndex = (int) (Math.random() * slangWords.size());
+        int i = 0;
+        for (String word : slangWords.keySet()) {
+            if (i == randomIndex) {
+                return word;
+            }
+            i++;
+        }
+        return slangWords.keySet().iterator().next();
+    }
 
     public SlangWordList search(String definition) {
         SlangWordList result = new SlangWordList();
@@ -49,5 +61,9 @@ public class SlangWordList {
             }
         }
         return result;
+    }
+    
+    public String getDefinition(String word) {
+        return slangWords.get(word);
     }
 }
